@@ -5,7 +5,7 @@
   "rounds_per_iter": 10000,
   "num_participants_per_round": 2,
   "embedding_size": 5,
-  "embedding_var": 1.0,
+  "embedding_variance": 1.0,
   "obs_embedding_size": 4,
   "allocation": "SecondPrice",
   "agents": [

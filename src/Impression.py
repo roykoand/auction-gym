@@ -18,7 +18,7 @@ class ImpressionOpportunity:
         "won",
     ]
 
-    context: np.array
+    context: np.ndarray
     item: np.uint32
     value: np.float32
     bid: np.float32

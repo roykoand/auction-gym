@@ -38,7 +38,7 @@ def parse_config(path):
 
     # Technical parameters for distribution of latent embeddings
     embedding_size = config['embedding_size']
-    embedding_var = config['embedding_var']
+    embedding_variance = config['embedding_variance']
     obs_embedding_size = config['obs_embedding_size']
 
     # Expand agent-config if there are multiple copies
@@ -58,7 +58,7 @@ def parse_config(path):
     # First sample item catalog (so it is consistent over different configs with the same seed)
     # Agent : (item_embedding, item_value)
     agents2items = {
-        agent_config['name']: rng.normal(0.0, embedding_var, size=(agent_config['num_items'], embedding_size))
+        agent_config['name']: rng.normal(0.0, embedding_variance, size=(agent_config['num_items'], embedding_size))
         for agent_config in agent_configs
     }
 
@@ -70,7 +70,7 @@ def parse_config(path):
     # Add intercepts to embeddings (Uniformly in [-4.5, -1.5], this gives nicer distributions for P(click))
     for agent, items in agents2items.items():
         agents2items[agent] = np.hstack((items, - 3.0 - 1.0 * rng.random((items.shape[0], 1))))
-
+    print("agents2item_values.shape = ", agents2item_values)
     return (rng, 
             config, 
             agent_configs, 
@@ -78,7 +78,7 @@ def parse_config(path):
             agents2item_values,
             num_runs, max_slots,
             embedding_size,
-            embedding_var,
+            embedding_variance,
             obs_embedding_size)
 
 
@@ -103,7 +103,7 @@ def instantiate_agents(rng, agent_configs, agents2item_values, agents2items):
     return agents
 
 
-def instantiate_auction(rng, config, agents2items, agents2item_values, agents, max_slots, embedding_size, embedding_var, obs_embedding_size):
+def instantiate_auction(rng, config, agents2items, agents2item_values, agents, max_slots, embedding_size, embedding_variance, obs_embedding_size):
     return (Auction(rng,
                     eval(f"{config['allocation']}()"),
                     agents,
@@ -111,7 +111,7 @@ def instantiate_auction(rng, config, agents2items, agents2item_values, agents, m
                     agents2item_values,
                     max_slots,
                     embedding_size,
-                    embedding_var,
+                    embedding_variance,
                     obs_embedding_size,
                     config['num_participants_per_round']),
             config['num_iter'], config['rounds_per_iter'], config['output_dir'])
@@ -169,7 +169,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Parse configuration file
-    rng, config, agent_configs, agents2items, agents2item_values, num_runs, max_slots, embedding_size, embedding_var, obs_embedding_size = parse_config(args.config)
+    rng, config, agent_configs, agents2items, agents2item_values, num_runs, max_slots, embedding_size, embedding_variance, obs_embedding_size = parse_config(args.config)
 
     # Plotting config
     FIGSIZE = (8, 5)
@@ -194,7 +194,7 @@ if __name__ == '__main__':
     for run in range(num_runs):
         # Reinstantiate agents and auction per run
         agents = instantiate_agents(rng, agent_configs, agents2item_values, agents2items)
-        auction, num_iter, rounds_per_iter, output_dir = instantiate_auction(rng, config, agents2items, agents2item_values, agents, max_slots, embedding_size, embedding_var, obs_embedding_size)
+        auction, num_iter, rounds_per_iter, output_dir = instantiate_auction(rng, config, agents2items, agents2item_values, agents, max_slots, embedding_size, embedding_variance, obs_embedding_size)
 
         # Placeholders for summary statistics per run
         agent2net_utility = defaultdict(list)
@@ -246,7 +246,7 @@ if __name__ == '__main__':
 
     def plot_measure_per_agent(run2agent2measure, measure_name, cumulative=False, log_y=False, yrange=None, optimal=None):
         # Generate DataFrame for Seaborn
-        if type(run2agent2measure) != pd.DataFrame:
+        if isinstance(run2agent2measure, pd.DataFrame):
             df = measure_per_agent2df(run2agent2measure, measure_name)
         else:
             df = run2agent2measure
@@ -312,7 +312,7 @@ if __name__ == '__main__':
 
     def plot_measure_overall(run2measure, measure_name):
         # Generate DataFrame for Seaborn
-        if type(run2measure) != pd.DataFrame:
+        if isinstance(run2measure, pd.DataFrame):
             df = measure2df(run2measure, measure_name)
         else:
             df = run2measure

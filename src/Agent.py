@@ -1,6 +1,6 @@
 import numpy as np
 
-from BidderAllocation import PyTorchLogisticRegressionAllocator, OracleAllocator
+from BidderAllocation import PyTorchLogisticRegressionAllocator
 from Impression import ImpressionOpportunity
 
 

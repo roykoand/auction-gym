@@ -14,7 +14,7 @@ AuctionGym uses JSON configuration files that detail configurations about the en
 | `rounds_per_iter` | The number of rounds per iteration |
 | `num_participants_per_round` | The number of participants in every auction round |
 | `embedding_size` | The dimensionality of the underlying context and item embeddings |
-| `embedding_var` | The variance of the Gaussian distribution from which underlying embeddings are sampled  |
+| `embedding_variance` | The variance of the Gaussian distribution from which underlying embeddings are sampled  |
 | `obs_embedding_size` | The dimensionality of the observable context embeddings to the bidders  |
 | `allocation` | The type of allocation: currently `FirstPrice` and `SecondPrice` are supported  |
 | `agents` | A list of agent configurations that describe bidders behaviour |
@@ -32,6 +32,6 @@ AuctionGym uses JSON configuration files that detail configurations about the en
 | `bidder` | The bidder decides how to bid, given a welfare estimate, allocated ad and context.  |
 
 
-Allocators have types, and possible keyword arguments supporting those types. Possible allocators are `OracleAllocator` and                                    `PyTorchLogisticRegressionAllocator`, which takes `embedding_size` and `num_items`.
+Allocators have types, and possible keyword arguments supporting those types. Possible allocators are `OracleAllocator` and `PyTorchLogisticRegressionAllocator`, which takes `embedding_size` and `num_items`.
 
 Bidders can be one of `TruthfulBidder`, `ValueLearningBidder`, `PolicyLearningBidder` or `DoublyRobustBidder`.

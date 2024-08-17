@@ -1,6 +1,3 @@
-from AuctionAllocation import AllocationMechanism
-from Bidder import Bidder
-
 import numpy as np
 
 from BidderAllocation import OracleAllocator
@@ -8,18 +5,18 @@ from Models import sigmoid
 
 class Auction:
     ''' Base class for auctions '''
-    def __init__(self, rng, allocation, agents, agent2items, agents2item_values, max_slots, embedding_size, embedding_var, obs_embedding_size, num_participants_per_round):
+    def __init__(self, rng, allocation, agents, agents2items, agents2item_values, max_slots, embedding_size, embedding_variance, obs_embedding_size, num_participants_per_round):
         self.rng = rng
         self.allocation = allocation
         self.agents = agents
         self.max_slots = max_slots
         self.revenue = .0
 
-        self.agent2items = agent2items
+        self.agents2items = agents2items
         self.agents2item_values = agents2item_values
 
         self.embedding_size = embedding_size
-        self.embedding_var = embedding_var
+        self.embedding_variance = embedding_variance
 
         self.obs_embedding_size = obs_embedding_size
 
@@ -30,7 +27,7 @@ class Auction:
         num_slots = self.rng.integers(1, self.max_slots + 1)
 
         # Sample a true context vector
-        true_context = np.concatenate((self.rng.normal(0, self.embedding_var, size=self.embedding_size), [1.0]))
+        true_context = np.concatenate((self.rng.normal(0, self.embedding_variance, size=self.embedding_size), [1.0]))
 
         # Mask true context into observable context
         obs_context = np.concatenate((true_context[:self.obs_embedding_size], [1.0]))
@@ -49,7 +46,7 @@ class Auction:
                 bid, item = agent.bid(obs_context)
             bids.append(bid)
             # Compute the true CTRs for items in this agent's catalogue
-            true_CTR = sigmoid(true_context @ self.agent2items[agent.name].T)
+            true_CTR = sigmoid(true_context @ self.agents2items[agent.name].T)
             agent.logs[-1].set_true_CTR(np.max(true_CTR * self.agents2item_values[agent.name]), true_CTR[item])
             CTRs.append(true_CTR[item])
         bids = np.array(bids)

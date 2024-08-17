@@ -138,7 +138,6 @@ class BidShadingContextualBandit(torch.nn.Module):
         plt.ylabel('MSE with logging policy')
         plt.legend()
         fig.set_tight_layout(True)
-        #plt.show()
 
         print('Predicted mu Gammas: ', predicted_mu_gammas.min(), predicted_mu_gammas.max(), predicted_mu_gammas.mean())
         print('Predicted sigma Gammas: ', predicted_sigma_gammas.min(), predicted_sigma_gammas.max(), predicted_sigma_gammas.mean())

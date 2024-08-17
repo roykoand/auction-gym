@@ -7,9 +7,12 @@ from tqdm import tqdm
 
 from Models import BidShadingContextualBandit, BidShadingPolicy, PyTorchWinRateEstimator
 
+def normal_pdf(x: float, mu: float, sigma: float) -> float:
+    return np.exp(-((x - mu) / sigma)**2/2) / (sigma * np.sqrt(2 * np.pi))
+
 
 class Bidder:
-    """ Bidder base class"""
+    """ Bidder base class """
     def __init__(self, rng):
         self.rng = rng
         self.truthful = False # Default
@@ -140,7 +143,6 @@ class EmpiricalShadedBidder(Bidder):
             plt.yticks(fontsize=fontsize-2)
             plt.legend(fontsize=fontsize)
             plt.tight_layout()
-            #plt.show()
 
     def clear_logs(self, memory):
         if not memory:
@@ -169,14 +171,13 @@ class ValueLearningBidder(Bidder):
         bid = value * estimated_CTR
         if not self.model_initialised:
             # Option 1:
-            # Sample the bid shadin factor 'gamma' from a Gaussian
+            # Sample the bid shading factor 'gamma' from a Gaussian
             gamma = self.rng.normal(self.prev_gamma, self.gamma_sigma)
-            normal_pdf = lambda g: np.exp(-((self.prev_gamma - g) / self.gamma_sigma)**2/2) / (self.gamma_sigma * np.sqrt(2 * np.pi))
-            propensity = normal_pdf(gamma)
+            propensity = normal_pdf(x=gamma, mu=self.prev_gamma, sigma=self.gamma_sigma)
         elif self.inference == 'search':
             # Option 2:
             # Predict P(win|gamma,value,P(click))
-            # Use it to predict utility, maximise utility
+            # Use it to predict utility, maximize utility
             n_values_search = 128
             gamma_grid = self.rng.uniform(0.1, 1.0, size=n_values_search)
             gamma_grid.sort()
@@ -348,8 +349,7 @@ class PolicyLearningBidder(Bidder):
             # Option 1:
             # Sample the bid shading factor 'gamma' from a Gaussian
             gamma = self.rng.normal(self.prev_gamma, self.gamma_sigma)
-            normal_pdf = lambda g: np.exp(-((self.prev_gamma - g) / self.gamma_sigma)**2/2) / (self.gamma_sigma * np.sqrt(2 * np.pi))
-            propensity = normal_pdf(gamma)
+            propensity = normal_pdf(x=gamma, mu=self.prev_gamma, sigma=self.gamma_sigma)
         else:
             # Option 2:
             # Sample from the contextual bandit
@@ -455,8 +455,7 @@ class DoublyRobustBidder(Bidder):
             # Option 1:
             # Sample the bid shading factor 'gamma' from a Gaussian
             gamma = self.rng.normal(self.prev_gamma, self.gamma_sigma)
-            normal_pdf = lambda g: np.exp(-((self.prev_gamma - g) / self.gamma_sigma)**2/2) / (self.gamma_sigma * np.sqrt(2 * np.pi))
-            propensity = normal_pdf(gamma)
+            propensity = normal_pdf(x=gamma, mu=self.prev_gamma, sigma=self.gamma_sigma)
         else:
             # Option 2:
             # Sample from the contextual bandit
