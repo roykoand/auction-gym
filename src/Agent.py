@@ -2,7 +2,6 @@ import numpy as np
 
 from BidderAllocation import PyTorchLogisticRegressionAllocator, OracleAllocator
 from Impression import ImpressionOpportunity
-from Models import sigmoid
 
 
 class Agent:
@@ -35,7 +34,7 @@ class Agent:
         best_item = np.argmax(estim_values)
 
         # If we do Thompson Sampling, don't propagate the noisy bid amount but bid using the MAP estimate
-        if type(self.allocator) == PyTorchLogisticRegressionAllocator and self.allocator.thompson_sampling:
+        if isinstance(self.allocator, PyTorchLogisticRegressionAllocator) and self.allocator.thompson_sampling:
             estim_CTRs_MAP = self.allocator.estimate_CTR(context, sample=False)
             return best_item, estim_CTRs_MAP[best_item]
 

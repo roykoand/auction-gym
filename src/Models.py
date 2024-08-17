@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from numba import jit
-from scipy.optimize import minimize
 from torch.nn import functional as F
 from tqdm import tqdm
 
@@ -111,7 +110,7 @@ class BidShadingContextualBandit(torch.nn.Module):
     def initialise_policy(self, observed_contexts, observed_gammas):
         # The first time, train the policy to imitate the logging policy
         self.train()
-        epochs = 8192 * 2
+        epochs = 8192 * 2 # TODO: test other params? why hardcoded?
         lr = 1e-3
         optimizer = torch.optim.Adam(self.parameters(), lr=lr, weight_decay=1e-4, amsgrad=True)
 

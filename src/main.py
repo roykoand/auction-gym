@@ -30,7 +30,7 @@ def parse_config(path):
     np.random.seed(config['random_seed'])
 
     # Number of runs
-    num_runs = config['num_runs'] if 'num_runs' in config else 1
+    num_runs = config.get('num_runs', 1)
 
     # Max number of slots in every auction round
     # Multi-slot is currently not fully supported.
@@ -71,7 +71,15 @@ def parse_config(path):
     for agent, items in agents2items.items():
         agents2items[agent] = np.hstack((items, - 3.0 - 1.0 * rng.random((items.shape[0], 1))))
 
-    return rng, config, agent_configs, agents2items, agents2item_values, num_runs, max_slots, embedding_size, embedding_var, obs_embedding_size
+    return (rng, 
+            config, 
+            agent_configs, 
+            agents2items, 
+            agents2item_values,
+            num_runs, max_slots,
+            embedding_size,
+            embedding_var,
+            obs_embedding_size)
 
 
 def instantiate_agents(rng, agent_configs, agents2item_values, agents2items):

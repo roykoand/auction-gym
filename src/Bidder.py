@@ -1,14 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy.stats
 import torch
 
-from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import RBF
 from sklearn.metrics import roc_auc_score
 from tqdm import tqdm
 
-from Impression import ImpressionOpportunity
 from Models import BidShadingContextualBandit, BidShadingPolicy, PyTorchWinRateEstimator
 
 
@@ -51,7 +47,7 @@ class EmpiricalShadedBidder(Bidder):
         gamma = self.rng.normal(self.prev_gamma, self.gamma_sigma)
         if gamma < 0.0:
             gamma = 0.0
-        if gamma > 1.0:
+        elif gamma > 1.0:
             gamma = 1.0
         bid *= gamma
         self.gammas.append(gamma)
@@ -120,7 +116,7 @@ class EmpiricalShadedBidder(Bidder):
         best_gamma = x[best_idx]
         if best_gamma < 0:
             best_gamma = 0
-        if best_gamma > 1.0:
+        elif best_gamma > 1.0:
             best_gamma = 1.0
         self.prev_gamma = best_gamma
 
