@@ -7,11 +7,11 @@ from src.ad_allocation.ad_allocators import (
 
 
 class AdAllocationEnum(StrEnum):
-    ORACLE_BIDDER_ALLOCATOR = auto()
+    ORACLE_ALLOCATOR = auto()
     PYTORCH_LOGISTIC_REGRESSION_ALLOCATOR = auto()
 
 AD_ALLOCATION_MAPPING = {
-    AdAllocationEnum.ORACLE_BIDDER_ALLOCATOR: OracleAllocator,
+    AdAllocationEnum.ORACLE_ALLOCATOR: OracleAllocator,
     AdAllocationEnum.PYTORCH_LOGISTIC_REGRESSION_ALLOCATOR: PyTorchLogisticRegressionAllocator,
 }
 

@@ -14,7 +14,7 @@
       "num_copies": 6,
       "num_items": 12,
       "allocator": {
-        "type": "OracleBidderAllocator",
+        "type": "OracleAllocator",
         "kwargs": {}
       },
       "bidder": {
