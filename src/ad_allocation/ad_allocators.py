@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-from src.ad_allocation.models import PyTorchLogisticRegression
+from src.ad_allocation.models import PytorchLogisticRegression
 from src.utils.math import sigmoid
 
 
@@ -18,15 +18,15 @@ class Allocator:
         pass
 
 
-class PyTorchLogisticRegressionAllocator(Allocator):
+class PytorchLogisticRegressionAllocator(Allocator):
     """An allocator that estimates P(click) with Logistic Regression implemented in PyTorch"""
 
     def __init__(self, rng, embedding_size, num_items, thompson_sampling=True):
-        self.response_model = PyTorchLogisticRegression(
+        self.response_model = PytorchLogisticRegression(
             n_dim=embedding_size, n_items=num_items
         )
         self.thompson_sampling = thompson_sampling
-        super(PyTorchLogisticRegressionAllocator, self).__init__(rng)
+        super(PytorchLogisticRegressionAllocator, self).__init__(rng)
 
     def update(
         self, contexts, items, outcomes, iteration, plot, figsize, fontsize, name

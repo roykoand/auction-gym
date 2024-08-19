@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.ad_allocation.ad_allocators import PyTorchLogisticRegressionAllocator
+from src.ad_allocation.ad_allocators import PytorchLogisticRegressionAllocator
 from src.impression import ImpressionOpportunity
 from src.bidders.bidder_enum import get_bidder
 from src.ad_allocation.ad_allocation_enum import get_ad_allocator
@@ -38,7 +38,7 @@ class Agent:
 
         # If we do Thompson Sampling, don't propagate the noisy bid amount but bid using the MAP estimate
         if (
-            isinstance(self.allocator, PyTorchLogisticRegressionAllocator)
+            isinstance(self.allocator, PytorchLogisticRegressionAllocator)
             and self.allocator.thompson_sampling
         ):
             estim_CTRs_MAP = self.allocator.estimate_CTR(context, sample=False)

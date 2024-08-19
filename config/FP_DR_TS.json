@@ -14,7 +14,7 @@
       "num_copies": 3,
       "num_items": 12,
       "allocator": {
-        "type": "PyTorchLogisticRegressionAllocator",
+        "type": "PytorchLogisticRegressionAllocator",
         "kwargs": {
           "embedding_size": 4,
           "num_items": 12
@@ -29,5 +29,5 @@
       }
     }
   ],
-  "output_dir": "results/FP_DR_TS/"
+  "output_dir": "results/original_paper/FP_DR_TS/"
 }

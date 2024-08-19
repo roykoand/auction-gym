@@ -1,7 +1,7 @@
 from enum import auto
 from src.utils.enums import StrEnum
 from src.ad_allocation.ad_allocators import (
-    PyTorchLogisticRegressionAllocator,
+    PytorchLogisticRegressionAllocator,
     OracleAllocator,
 )
 
@@ -12,7 +12,7 @@ class AdAllocationEnum(StrEnum):
 
 AD_ALLOCATION_MAPPING = {
     AdAllocationEnum.ORACLE_ALLOCATOR: OracleAllocator,
-    AdAllocationEnum.PYTORCH_LOGISTIC_REGRESSION_ALLOCATOR: PyTorchLogisticRegressionAllocator,
+    AdAllocationEnum.PYTORCH_LOGISTIC_REGRESSION_ALLOCATOR: PytorchLogisticRegressionAllocator,
 }
 
 def get_ad_allocator(allocator_enum):

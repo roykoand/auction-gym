@@ -32,6 +32,6 @@ AuctionGym uses JSON configuration files that detail configurations about the en
 | `bidder` | The bidder decides how to bid, given a welfare estimate, allocated ad and context.  |
 
 
-Allocators have types, and possible keyword arguments supporting those types. Possible allocators are `OracleAllocator` and `PyTorchLogisticRegressionAllocator`, which takes `embedding_size` and `num_items`.
+Allocators have types, and possible keyword arguments supporting those types. Possible allocators are `OracleAllocator` and `PytorchLogisticRegressionAllocator`, which takes `embedding_size` and `num_items`.
 
 Bidders can be one of `TruthfulBidder`, `ValueLearningBidder`, `PolicyLearningBidder` or `DoublyRobustBidder`.

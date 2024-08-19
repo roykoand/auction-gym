@@ -7,9 +7,9 @@ from torch.nn import functional as F
 # https://proceedings.neurips.cc/paper/2011/file/e53a0a2978c28872a4505bdb51db06dc-Paper.pdf
 
 
-class PyTorchLogisticRegression(torch.nn.Module):
+class PytorchLogisticRegression(torch.nn.Module):
     def __init__(self, n_dim, n_items):
-        super(PyTorchLogisticRegression, self).__init__()
+        super(PytorchLogisticRegression, self).__init__()
         self.m = torch.nn.Parameter(torch.Tensor(n_items, n_dim + 1))
         torch.nn.init.normal_(self.m, mean=0.0, std=1.0)
         self.prev_iter_m = self.m.detach().clone()
