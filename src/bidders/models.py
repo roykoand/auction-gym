@@ -107,7 +107,7 @@ class BidShadingContextualBandit(torch.nn.Module):
                 break
 
         fig, ax = plt.subplots()
-        plt.title(f"Initialising policy")
+        plt.title("Initialising policy")
         plt.plot(losses, label=r"Loss")
         plt.ylabel("MSE with logging policy")
         plt.legend()
