@@ -113,6 +113,7 @@ if __name__ == "__main__":
 
     # Repeated runs
     for run in range(num_runs):
+        print(f"==== RUN {run} ====")
         # Reinstantiate agents and auction per run
         agents = instantiate_agents(
             rng, agent_configs, agents2item_values, agents2items
