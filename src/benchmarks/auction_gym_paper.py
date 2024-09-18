@@ -5,7 +5,6 @@ import os
 import pandas as pd
 import seaborn as sns
 from collections import defaultdict
-from copy import deepcopy
 from tqdm import tqdm
 
 from src.bidders import PolicyLearningBidder, DoublyRobustBidder
@@ -71,7 +70,7 @@ def simulation_run():
 
 
 if __name__ == "__main__":
-    # Parse commandline arguments
+    # Parse command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "config", type=str, help="Path to experiment configuration file"
